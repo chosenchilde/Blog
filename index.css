@@ -3,13 +3,116 @@
  * By Luferat
  */
 
+ /* Importa bibliotecas externas. */
  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-
-#wrap {
-    text-align: justify;
+ @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+ 
+  /* RESET - Normalize */
+  * {
+    box-sizing: border-box;
+    outline: none;
 }
 
- header {
+html, body {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+a { 
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #d65a31;
+    text-decoration: underline;
+}
+ /* Define a fonte e o fundo padrão da página. */
+
+ html, body {
+    font-family: Roboto, sans-serif; 
+    /* Criamos uma nova unidade chamada 'rem' → lrem = 16px */
+    font-size: 16px;
+
+    background-attachment: fixed;
+    background-color: #f6f6f6;
+    background-image: url('');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+ }
+ 
+ #wrap {background-color: #fff;
+    text-align: justify;
+    height: 100%;
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+    position: auto;
+}
+
+#wrap > header {
     text-align: center;
  }
+
+ h2 { border-bottom:2px solid black;
+    text-transform: uppercase;
+    color: white;
+    background-color: black;
+    display: inline-block;
+    padding: 3px 15px;
+    margin-left: 10px;
+}
+
+h2:after {
+    display: block;
+    position: relative;
+    height:3px;
+    width: 100%;
+    margin-top:2px;
+    content: " ";
+    background:#000;
+}
+
+article {
+    padding: 10px;
+    text-align: justify;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 2px solid #414141;
+  }
+
+  aside {
+    padding: 10px;
+    text-align: justify;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 2px solid #414141;
+  }
+
+.footer-top {
+    text-align: center;
+    display: flex;
+}
+
+.footer-bottom {    padding: 10px;
+    text-align: justify;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 2px solid #414141;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+}
+  
+ /* Bala de rolamento vertical personalizada */
+::-webkit-scrollbar { background-color: #fff; border: 4px solid #d9d9d9; height: 9px; width: 9px; }
+::-webkit-scrollbar-thumb { background-color: #fff; border: 3px solid #d9d9d9; height: auto; width: 5px; }

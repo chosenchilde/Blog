@@ -39,12 +39,10 @@ body {
     font-family: Roboto, sans-serif;
     /* Criamos uma nova unidade chamada 'rem' → lrem = 16px */
     font-size: 16px;
-    background-attachment: fixed;
-    background-color: #f6f6f6;
-    background-image: url('');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    height: 100%;
+    background: rgb(233,233,233);
+    background: linear-gradient(0deg, rgba(233,233,233,1) 0%, rgba(255,255,255,1) 100%);
+    background-attachment: scroll;
 }
 
 #wrap {
@@ -128,6 +126,7 @@ body {
     flex-direction: column;
     margin: 0.5rem;
     flex-grow: 1;
+    background-color: #fff;
 }
 
 #wrap>main>article {
@@ -140,6 +139,7 @@ body {
     line-height: 20px;
     position: relative;
     flex-grow: 1;
+    background-color: #fff;
 }
 
 #wrap>main>aside {
@@ -150,6 +150,7 @@ body {
     margin-right: 10px;
     border: 1px solid #414141;
     position: relative;
+    background-color: #fff;
 }
 
 /* Modificações na apresentação dos títulos da páginas, 
@@ -198,9 +199,53 @@ body {
     margin-top: 10px;
 }
 
-/* Rodapé do blog. */
+/* Rodapé */
+.footer { 
+	background-color:#ce6f2f; 
+	color:#fff; 
+	font-size:0.875rem; 
+    margin-top: 1rem;
+}
+.footer .content { float:left; width:90%; margin:0 5%; padding: 1rem 0; }
+.container { float: left; width:100%; }
+.contFooter { 
+	width:100%; 
+	height: auto; 
+	float: left; 
+	margin-bottom:2em;
+    padding: 0;
+}
+.contFooter ul        { width:100%; float:left; list-style: none; padding: 0;}
+.contFooter ul li     { padding:0.2em 0em; }
+.contFooter ul li a   { text-decoration: none; color:#ffffff; font-size:1em; }
+.contFooter ul li a i { font-size:0.5em; }
+.contFooter ul li a:hover {text-decoration: underline; }
+.contFooter .titleFooter { 
+	font-family: Roboto, sans-serif; 
+	font-size:1.3em; 
+	color:#ffffff; 
+	padding-bottom: 0.5em; 
+	margin-bottom:0.5em; 
+	border-bottom:1px #f5c5a5 solid;
+}
+.contFooter p  { font-family: Roboto, sans-serif; color:#ffffff; font-size:1em; line-height: 1.2rem; } 
+
+.copyright { background-color:#b86026; width:100%; float:left; text-align:center; padding:0rem 0em; }
+.copyright p { font-family:Roboto, sans-serif; font-size:1em; color:#fff; height:20px; }
+.copyright .siteCopy { margin-bottom:0.5em; }
+.copyright .siteBy { font-size:0.96em; margin-top: 1rem;}
+.copyright .siteBy a { color:#fff; text-decoration:none; }
+
+/*Responsivo*/
+@media (min-width:48em){
+.contFooter  { width:30%; margin-right:5%; margin-bottom:0; }
+.contFooter:nth-of-type(3n+0){ margin-right:0; border-right:0;}
+}
+
+/* Rodapé do blog.
 #wrap>footer {
     margin: .5rem;
+    background-color: #fff;
 }
 
 .footer-top {
@@ -225,7 +270,7 @@ body {
     list-style: none;
     padding: 0;
     line-height: 1.5rem;
-}
+} */
 
 /* Barra de rolamento vertical personalizada */
 ::-webkit-scrollbar {
@@ -249,8 +294,7 @@ body {
     border: .25rem solid transparent;
 }
 
-
-/* Lista de Gadgets*/
+/* Lista de Gadgets
 
 #gadgets {
     background-color: transparent;
@@ -268,15 +312,15 @@ body {
 }
 
 #gadgets a {
- color:#ce6f2f;   
-}
+    color: #ce6f2f;
+} */
 
 /************************/
 /* Em larguras maiores */
 /**********************/
 
 @media screen and (min-width: 480px) {
-    #wrap>nav .navbar{
+    #wrap>nav .navbar {
         justify-content: space-between;
     }
 

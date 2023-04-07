@@ -1,1 +1,5 @@
-console.log('Funciona!')
+$(document).ready(myE404)
+
+function myE404(){
+    changeTitle('Error 404')
+}

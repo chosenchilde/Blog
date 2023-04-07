@@ -1,1 +1,5 @@
-console.log('Funciona!')
+$(document).ready(myContacts)
+
+function myContacts(){
+    changeTitle('Contatos')
+}

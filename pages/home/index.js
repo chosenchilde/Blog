@@ -1,1 +1,5 @@
-console.log('Funciona!')
+$(document).ready(myHome)
+
+function myHome(){
+    changeTitle()
+}

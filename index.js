@@ -1,46 +1,69 @@
+/**
+ * Estrutura de Blog
+ * MIT License 2023 By Lucas Belchior
+ **/
+
+ /**
+  * JavaScript do aplicativo.
+  * Depende de "jQuery".
+  */
+
 // Variável que define as informações básicas do site/aplicativo. 
 var app = {
     siteName: 'Code Blog',
-    siteSlogan: "Programação e códigos.",
-    siteLicense: '&copy; 2023 Lucas Belchior'
+    siteSlogan: 'Programação e códigos.',
+    siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>'
 }
 
 
-/*Altera o nome e o slogan do site utilizando os valores inseridos
-* na variável app.*/
+/*Altera as informações mutáveis do site como logo, slogan, nome
+utilizando os valores inseridos na variável app.*/
 $('#siteInfos').html(app.siteName + '<br>' + '<small>' + app.siteSlogan + '</small>')
+$('#siteLicense').html('Desenvolvido por ' + app.siteLicense)
 
 $(document).ready(myApp)
 function myApp() {
     // Carrega a página inicial.
-    loadpage('home')
+    // loadpage('home')
+
+    /**
+      * Obtém nome da página que está sendo acessada, do 'localStorage'.
+      * Estude '/404.html' para mais detalhes.
+      **/
+    const path = localStorage.path
+    if (path) {                      // Se cliente está acessando uma página específica...
+        loadpage(path);              // Acessa a página solicitada.
+        delete localStorage.path     // Limpa o 'localStorage'.
+    } else {                         // Se não solicitou uma página específica...
+        loadpage('home');            // Carrega a página inicial.
+    }    
+
+    /* Monitora cliques em elementos '<a>' que, se ocorre, chama a função.
+    * routerLink() */
+    $(document).on('click', 'a', routerLink)
 }
 
-/* Monitora cliques em elementos '<a>' que, se ocorre, chama a função.
-* routerLink()
-*/
-$(document).on('click', 'a', routerLink)
-function routerLink(){
+/* Função que processa um link quando clicado. */
+function routerLink() {
 
     /* Captura o valor do atributo 'href' do elemento clicado.
     * E filtra o seu conteúdo, recortando espaços e colocando 
-    * em letras minúsculas.*/ 
+    * em letras minúsculas.*/
     var href = $(this).attr('href').trim().toLowerCase()
 
     // Detecta clicks em links externos e âncoras.
-    if (href.substring(0,7) == 'http://' ||
-    href.substring(0,8) == 'https://' ||
-    href.substring(0,1) == '#'
-    ){
+    if (href.substring(0, 7) == 'http://' ||
+        href.substring(0, 8) == 'https://' ||
+        href.substring(0, 1) == '#'
+    )
         // Devolve o controle para o HTML.
         return true
-    }
 
     //Exibe a página da rota clicada. 
     loadpage(href)
 
     // Bloqueia o funcionamento normal do link. 
-    return false 
+    return false
 }
 
 // Carrega uma página.
@@ -52,6 +75,7 @@ function loadpage(page) {
         js: `/pages/${page}/index.js`
     }
 
+    // Faz o request ao conteúdo a ser carregado no SPA.
     $.get(path.html)
         .done((data) => {
             $('#pageCSS').attr('href', path.css)
@@ -63,6 +87,7 @@ function loadpage(page) {
         .fail((error) => {
             loadpage('e404')
         })
+
     /**
     * Rola a tela para o início, útil para links no final da página.
     * Referências:

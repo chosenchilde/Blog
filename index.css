@@ -242,36 +242,6 @@ body {
 .contFooter:nth-of-type(3n+0){ margin-right:0; border-right:0;}
 }
 
-/* Rodapé do blog.
-#wrap>footer {
-    margin: .5rem;
-    background-color: #fff;
-}
-
-.footer-top {
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0.6rem 0.8rem 0.6rem;
-}
-
-.footer-bottom {
-    padding: 10px;
-    text-align: justify;
-    border: 1px solid #414141;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin: 0 0.6rem;
-}
-
-.footer-bottom ul {
-    list-style: none;
-    padding: 0;
-    line-height: 1.5rem;
-} */
-
 /* Barra de rolamento vertical personalizada */
 ::-webkit-scrollbar {
     background-color: #000;
@@ -293,31 +263,6 @@ body {
     margin: 0;
     border: .25rem solid transparent;
 }
-
-/* Lista de Gadgets
-
-#gadgets {
-    background-color: transparent;
-    position: fixed;
-    right: 200px;
-    top: 100px;
-    z-index: 100;
-    font-size: 30px;
-}
-
-#gadgets ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#gadgets a {
-    color: #ce6f2f;
-} */
-
-/************************/
-/* Em larguras maiores */
-/**********************/
 
 @media screen and (min-width: 480px) {
     #wrap>nav .navbar {

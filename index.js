@@ -12,7 +12,8 @@
 var app = {
     siteName: 'Code Blog',
     siteSlogan: 'Programação e códigos.',
-    siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>'
+    siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>',
+    apiContactsURL: 'http://localhost:3000/contacts'
 }
 
 
@@ -23,20 +24,27 @@ $('#siteLicense').html('Desenvolvido por ' + app.siteLicense)
 
 $(document).ready(myApp)
 function myApp() {
-    // Carrega a página inicial.
-    // loadpage('home')
-
     /**
-      * Obtém nome da página que está sendo acessada, do 'localStorage'.
-      * Estude '/404.html' para mais detalhes.
-      **/
-    const path = localStorage.path
-    if (path) {                      // Se cliente está acessando uma página específica...
-        loadpage(path);              // Acessa a página solicitada.
-        delete localStorage.path     // Limpa o 'localStorage'.
-    } else {                         // Se não solicitou uma página específica...
-        loadpage('home');            // Carrega a página inicial.
-    }    
+     * IMPORTANTE!
+     * Para que o roteamento funcione corretamente no "live server", é 
+     * necessário que erros 404 abram a página "404.html".
+     **/
+
+    // Verifica se o 'localStorage' contém uma rota.
+    if (localStorage.path == undefined) {
+
+        // Se não contém, aponta a rota 'home'.
+        localStorage.path = 'home'
+    }
+
+    // Armazena a rota obtida em 'path'.        
+    var path = localStorage.path
+
+    // Apaga o 'localStorage', liberando o recurso.
+    delete localStorage.path
+
+    // Carrega a página solicitada pela rota.
+    loadpage(path)
 
     /* Monitora cliques em elementos '<a>' que, se ocorre, chama a função.
     * routerLink() */
@@ -52,9 +60,12 @@ function routerLink() {
     var href = $(this).attr('href').trim().toLowerCase()
 
     // Detecta clicks em links externos e âncoras.
-    if (href.substring(0, 7) == 'http://' ||
-        href.substring(0, 8) == 'https://' ||
-        href.substring(0, 1) == '#'
+    if (
+    href.substring(0, 7) == 'http://' ||
+    href.substring(0, 8) == 'https://' ||
+    href.substring(0, 4) == 'tel:' ||
+    href.substring(0, 7) == 'mailto:' ||
+    href.substring(0, 1) == '#'
     )
         // Devolve o controle para o HTML.
         return true
@@ -67,7 +78,7 @@ function routerLink() {
 }
 
 // Carrega uma página.
-function loadpage(page) {
+function loadpage(page, updateURL = true) {
     // Monta os caminhos para os componentes da página solicitada.
     const path = {
         html: `/pages/${page}/index.html`,
@@ -78,14 +89,23 @@ function loadpage(page) {
     // Faz o request ao conteúdo a ser carregado no SPA.
     $.get(path.html)
         .done((data) => {
-            $('#pageCSS').attr('href', path.css)
+            // Se o documento carregado não é uma página de conteúdo.
+            if (data.trim().substring(0,9) != '<article>')
 
-            $('main').html(data)
+            // Carrega a página de error 404 sem atualizar a rota.
+            loadpage ('e404', false)
 
-            $.getScript(path.js)
-        })
-        .fail((error) => {
-            loadpage('e404')
+            // Se o documento é uma página de conteúdo.
+            else {
+                // jQuery - Instala o CSS da página na 'index.html'.
+                $('#pageCSS').attr('href', path.css)
+
+                // jQuery - Carregar o HTML no elemento <main></main>.
+                $('main').html(data)
+
+                // jQuery - Carrega e executa o JavaScript.
+                $.getScript(path.js)
+            }
         })
 
     /**
@@ -100,7 +120,8 @@ function loadpage(page) {
      * Referências:
      *  • https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
      **/
-    window.history.pushState({}, '', page);
+    if (updateURL) window.history.pushState({}, '', page);
+
 }
 
 /* Carrega o título exibido na aba do navegador de acordo com

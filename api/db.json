@@ -21,5 +21,40 @@
       "message": "Contato do Joquinha.",
       "id": 3
     }
-  ]
+  ],
+
+  "users":[
+    {
+      "name": "Administrador Principal",
+      "email": "principal@admin.com",
+      "photo": "",
+      "date": "2023-04-17 19:45:00",
+      "bio": "Uma biografia simples a respeito do Administrador Principal.",
+      "social": "",
+      "type": "admin",
+      "status": "on",
+      "id": 1
+    }, 
+    {
+      "name": "Usuário Teste",
+      "email": "usuario@teste.com",
+      "photo": "",
+      "date": "2023-04-17 19:49:00",
+      "bio": "Usuário teste para experimentar as funcionalidados do tipo user.",
+      "social": "",
+      "type": "user",
+      "status": "on",
+      "id": 2
+    },
+    {
+    "name": "Autor Nº 1",
+    "email": "numeroum@autor.com",
+    "photo": "",
+    "date": "2023-04-17 19:52:00",
+    "bio": "Conta do primeiro autor do blog responsável por postar os principais artigos",
+    "social": "",
+    "type": "author",
+    "status": "on",
+    "id": 2}
+    ]
 }

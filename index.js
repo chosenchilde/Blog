@@ -13,7 +13,8 @@ var app = {
     siteName: 'Code Blog',
     siteSlogan: 'Programação e códigos.',
     siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>',
-    apiContactsURL: 'http://localhost:3000/contacts'
+    apiContactsURL: 'http://localhost:3000/contacts',
+    apiArticlesURL: 'http://localhost:3000/articles?_sort=date&_order=desc'
 }
 
 

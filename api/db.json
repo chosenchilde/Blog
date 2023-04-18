@@ -22,8 +22,7 @@
       "id": 3
     }
   ],
-
-  "users":[
+  "users": [
     {
       "name": "Administrador Principal",
       "email": "principal@admin.com",
@@ -34,7 +33,7 @@
       "type": "admin",
       "status": "on",
       "id": 1
-    }, 
+    },
     {
       "name": "Usuário Teste",
       "email": "usuario@teste.com",
@@ -45,16 +44,48 @@
       "type": "user",
       "status": "on",
       "id": 2
+    }
+  ],
+  "articles": [
+    {
+      "author": 1,
+      "date": "2023-04-17 20:24:00",
+      "title": "Título do Primeiro Artigo",
+      "thumbnail": "https://picsum.photos/200",
+      "resume": "Aprenda a fazer alguma coisa que deve ser feita por quem sabe.",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean faucibus justo nibh, sed rutrum neque feugiat ac.",
+      "views": 0,
+      "status": "on",
+      "id": 1
     },
     {
-    "name": "Autor Nº 1",
-    "email": "numeroum@autor.com",
-    "photo": "",
-    "date": "2023-04-17 19:52:00",
-    "bio": "Conta do primeiro autor do blog responsável por postar os principais artigos",
-    "social": "",
-    "type": "author",
-    "status": "on",
-    "id": 2}
-    ]
+      "author": 1,
+      "date": "2023-04-17 20:58:00",
+      "title": "Título do Segundo Artigo",
+      "thumbnail": "img.png",
+      "resume": "Resumo do artigo.",
+      "content": "Conteúdo principal do artigo",
+      "views": 0,
+      "status": "on",
+      "id": 2
+    }
+  ],
+  "comments": [
+    {
+      "author": "1",
+      "date": "2023-04-17 20:47:00",
+      "article": 1,
+      "content": "Comentando comentários comentáveis",
+      "status": "on",
+      "id": 1
+    },
+    {
+      "author": "1",
+      "date": "2023-04-17 20:50:00",
+      "article": 1,
+      "content": "Comentando comentários comentáveis do segundo comentário.",
+      "status": "on",
+      "id": 2
+    }
+  ]
 }

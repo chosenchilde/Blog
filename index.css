@@ -22,6 +22,7 @@ body {
     width: 100%;
     padding: 0;
     margin: 0;
+
 }
 
 a {
@@ -40,13 +41,15 @@ body {
     /* Criamos uma nova unidade chamada 'rem' → lrem = 16px */
     font-size: 16px;
     height: 100%;
-    background: rgb(233,233,233);
-    background: linear-gradient(0deg, rgba(233,233,233,1) 0%, rgba(255,255,255,1) 100%);
-    background-attachment: scroll;
+    background-color: #f1f1f1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #wrap {
     background-color: #fff;
+    background-size: cover;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     text-align: justify;

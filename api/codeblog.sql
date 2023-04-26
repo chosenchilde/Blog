@@ -34,6 +34,7 @@ CREATE TABLE users (
     user_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_name VARCHAR(255) NOT NULL,
     user_email VARCHAR(255) NOT NULL,
+    user_password VARCHAR(63) NOT NULL,
     user_photo VARCHAR(255) COMMENT 'URL da imagem.',
     user_bio VARCHAR(255),
     user_birth DATE,
@@ -93,12 +94,14 @@ VALUES
 INSERT INTO users (
     user_name,
     user_email,
+    user_password,
     user_photo,
     user_bio,
     user_birth
 ) VAlUES (
     'Primeiro Nome',
     'primeironome@gmail.com',
+    SHA1('Senha_12345'),
     'https://randomuser.me/api/portraits/men/33.jpg',
     'Uma bio aleatória sobre o Primeiro Nome',
     '2001-10-28'
@@ -106,12 +109,14 @@ INSERT INTO users (
 INSERT INTO users (
     user_name,
     user_email,
+    user_passowrd
     user_photo,
     user_bio,
     user_birth
 ) VAlUES (
     'Segundo Nome',
     'segundonome@gmail.com',
+    SHA1('12345_SENHA'),
     'https://randomuser.me/api/portraits/women/33.jpg',
     'Uma bio aleatória sobre o Segundo Nome',
     '1999-11-10'

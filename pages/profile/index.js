@@ -22,7 +22,7 @@ function myProfile() {
             <div class="userProfile">
 <h2>Perfil do usuário</h2>
 <div id="googleManage"><img src="${user.photoURL} " alt="${user.displayName}"> <h3>${user.displayName}</h5> Seu perfil é gerenciado pelo Google.</div>
-<ul>
+<br><ul>
     <li><strong>ID Local:</strong></li> ${user.uid}
     <li><strong>E-mail:</strong></li> ${user.email}
     <li><strong>Data de Cadastro:</strong></li> ${created}
@@ -32,18 +32,29 @@ function myProfile() {
 <p>Clique no botão abaixo para ver/editar seu perfil.</p>
 <button id="googleProfile"><i class="fa-brands fa-google fa-fw"></i> Perfil no Google</button>
 
-<button id="googleLogout"><i class="fa-solid fa-right-from-bracket fa-fw"></i> Sair</button> <button id="googleRemove"><i class="fa-solid fa-user-lock fa-fw"></i> Aplicativos Conectados</button>
-<p>Clique no botão acima para sair do aplicativo neste dispositivo.
+<p>Clique no botão abaixo para sair do aplicativo neste dispositivo.
 Você precisará entrar novamente para ter acesso aos recursos restritos do site.</p>
+<button id="googleLogout"><i class="fa-solid fa-right-from-bracket fa-fw"></i> Sair / Logout</button>
+
+<div class="dzone">
+    <div class="line"><hr></div>
+    <div>&nbsp;DANGER ZONE!&nbsp;</div>
+    <div class="line"><hr></div>
+</div>
 
 <p>Para remover sua conta deste aplicativo, acesse seu perfil do Google, localize e remova o aplicativo "<code>project-${firebaseConfig.messagingSenderId}</code>". 
 Lembre-se que o Google só compartilha seu nome público, seu endereço de e-mail e sua imagem de perfil pública com nosso site,
 significa que, normalmente, não é necessário remover as permissões deste aplicativo da sua conta por questões de privacidade.
 </p>
-<blockquote><em>Leia nossas <a href="policies">Políticas de privacidade</a> para saber mais.</em></blockquote>
-<p>Se quiser remover mesmo assim, clique no botão abaixo para acessar a página de permissões:</p>
 
+<blockquote><em>Leia nossas <a href="policies">Políticas de privacidade</a> para saber mais.</em></blockquote>
+
+<p>Além disso, para ter acesso aos recursos restritos você terá que autorizar o aplicativo novamente e não terá acesso aos seus conteúdos da conta antiga.</p>
+
+<p>Se quiser remover mesmo assim, clique no botão abaixo para acessar a página de permissões:</p>
+<button id="googleRemove"><i class="fa-solid fa-user-lock fa-fw"></i> Aplicativos Conectados</button>
 <p>Em seguida, clique no botão [<i class="fa-solid fa-right-from-bracket fa-fw"></i> Sair / Logout] acima.</p>
+
 </div>
             `)
             // Quando clicar no botão de perfil.

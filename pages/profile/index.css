@@ -35,6 +35,8 @@
     border-radius: .3rem;
     display: block;
     margin: auto;
+    width: 100%;
+    max-width: 320px;
     color: white;
     cursor: pointer;
 }
@@ -45,12 +47,28 @@
 
 #googleLogout {
     background-color: orangered;
-    width: 300px;
-    display: flex;
 }
 
 #googleRemove {
     background-color: red;
-    width: 300px;
+}
+
+.dzone {
+    margin-top: 2rem;
     display: flex;
+    align-items: center;
+    color: red;
+    font-weight: bold;
+}
+
+.dzone div.line {
+    flex-grow: 1;
+}
+
+.dzone div.line hr {
+    border: none;
+    margin: 0;
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+    height: 1px;
 }

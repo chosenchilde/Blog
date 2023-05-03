@@ -15,9 +15,10 @@ var app = {
     siteSlogan: 'Programação e códigos.',
     siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>',
     apiContactsURL: apiBaseURL + 'contacts',
-    apiArticlesURL: apiBaseURL + 'articles?_sort=date&_order=desc',
+    apiArticlesURL: apiBaseURL + 'articles?_sort=date&_order=desc&status=on',
     apiArticleURL: apiBaseURL + 'articles/',
-    apiUserURL: apiBaseURL + 'users/'
+    apiUserURL: apiBaseURL + 'users/',
+    apiCommentURL: apiBaseURL + 'comments?_sort=date&_order=desc&status=on'
 }
 
 

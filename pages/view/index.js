@@ -1,16 +1,22 @@
+/**
+ * Scripts de View
+ * By Luferat
+ * MIT License
+ * 
+ * DEBUG By Jaydee.
+ **/
+
 $(document).ready(myView)
 
 // Inicializa a variável de saída.
-var article = author = authorArts = dateAuthor = cmtList = cmtUser = ''
+var article = author = authorArts = dateAuthor = cmtList = cmtForm = artId = ''
+var userData;
 
 // Função principal da página "user".
 function myView() {
 
     // Obtém o id do artigo da sessão.
-    const artId = sessionStorage.article
-
-    // Apaga id do artigo da sessão.
-    // delete sessionStorage.article
+    artId = sessionStorage.article
 
     // Obtém o artigo da API, pelo ID.
     $.get(app.apiArticleURL + artId)
@@ -21,8 +27,9 @@ function myView() {
             // Monta a view (HTML do artigo).
             article += `
 <h2>${art.title}</h2>
-<small id="dateAuthor"></small>
-<div>${art.content}</div>
+<small id="dateAuthor" class="dateAuthor"></small>
+<div class="art-content">${art.content}</div>
+&nbsp;
 <h3 class="comt-title">Comentários</h3>
 <div id="commentForm"></div>
 <div id="commentList"></div>   
@@ -37,6 +44,19 @@ function myView() {
             // Altera o título da página.
             changeTitle(art.title)
 
+            // Atualiza o contador de views deste artigo.
+            var view = {
+                views: parseInt(art.views) + 1
+            }
+
+            // Grava o novo contador no artigo.
+            var sData = {
+                type: 'PATCH',
+                url: app.apiArticleURL + artId,
+                data: view
+            }
+            $.ajax(sData);
+
             // Obter dados do autor.
             $.get(app.apiUserURL + art.author)
                 .done((user) => {
@@ -50,12 +70,14 @@ function myView() {
                     $('#dateAuthor').html(`<span>Por ${user.name}&nbsp;</span><span>em ${date}.</span>`)
 
                     author = `
-            <div class="art-author"><h3>${user.name}</h3>
-        <img src="${user.photo}" alt="${user.name}">
-        <h4>${getAge(user.birth)} anos</h4>
-        <p>${user.bio}</p>
-        </div>
-                `
+<div class="art-author">
+    <img src="${user.photo}" alt="${user.name}">
+    <h3>${user.name}</h3>
+    <h5>${getAge(user.birth)} anos</h5>
+    <p>${user.bio}</p>
+</div>
+                    `
+
                     // Obtém todos os artigos deste autor.
                     $.get(app.apiArticleURL + `?author=${user.id}&_limit=5&status=on`)
                         .done((uArt) => {
@@ -65,7 +87,7 @@ function myView() {
                             `
                             uArt.forEach((data) => {
                                 if (data.id != art.id) {
-                                    authorArts += `<li><a href="view" data-id="${data.id}">${data.title}</a></li>`
+                                    authorArts += `<li class="art-item" data-id="${data.id}">${data.title}</li>`
                                 }
                             });
                             authorArts += `</ul>`
@@ -78,36 +100,11 @@ function myView() {
                 })
                 .fail()
 
-            /**
-             * Processa os comentários do artigo.
-             **/
+            // Mostra o formulário de comentário.
+            getCommentForm()
 
-            // Obtém todos os comentários deste artigo
-            $.get(app.apiCommentURL + '&article=' + artId)
-                .done((cmts) => {
-                    cmts.forEach((cmt) => {
-
-                        $.get(app.apiUserURL + cmt.author)
-                            .done((user) => {
-                                cmtList += `
-                            <br>
-                            <div class="single-comment">
-                               <div class="author-date"><span>Por <b>${user.name}</b>&nbsp;</span><span>em ${cmt.date}</span></div>
-                               <div class="content"><b>&#8618</b> ${cmt.content}</div>
-                            </div>                            
-                                `
-
-                                // Mostra alista de comentários na view.
-                                $('#commentList').html($('#commentList').html() + cmtList)
-                                cmtList = ''
-                            })
-                            .fail()
-
-                    })
-
-
-                })
-                .fail(()=>{console.log('oi')})
+            // Exibe todos os comentários deste artigo.
+            getComments(artId)
 
             // Caso a página não exista...
         }).fail((error) => {
@@ -117,3 +114,124 @@ function myView() {
         })
 
 }
+
+function sendComment(event) {
+
+    // Evita ação normal do HTML. Não envia o formulário.
+    event.preventDefault()
+
+    // Obtém o comentário do formulário, sanitizando o conteúdo.
+    var content = stripHTML($('#txtContent').val().trim())
+
+    // Escreveo conteúdo sanitizado no campo.
+    $('#txtContent').val(content)
+
+    // Se o conteúdo é vazio, não faz nada.
+    if (content == '') {
+        alert('Seu comentário está vazio. Preencha um comentário na caixa de texto.')
+        return false
+    }
+
+    // Obtém a data atual do sistema.
+    const today = new Date()
+
+    // Formata a data para 'system date' (aaaa-mm-dd hh:ii:ss).
+    sysdate = today.toISOString().replace('T', ' ').split('.')[0]
+
+    // Monta o objeto de requisição para a API.
+    const formData = {
+        name: userData.displayName,
+        photo: userData.photoURL,
+        email: userData.email,
+        uid: userData.uid,
+        article: artId,
+        content: content,
+        date: sysdate,
+        status: 'on'
+    }
+
+    // Envia dados para a API.
+    $.post(app.apiCommentPostURL, formData)
+        .done((data) => {
+            if (data.id > 0) {
+                alert('Seu comentário foi enviado com sucesso!')
+                loadpage('view')
+            }
+        })
+        .fail((err) => {
+            console.error(err)
+        })
+}
+
+function getCommentForm() {
+
+    // Monitora status de autenticação do usuário
+    firebase.auth().onAuthStateChanged((user) => {
+
+        // Se o usuário está logado...
+        if (user) {
+
+            // Armazena os dados do usuário logado na global 'userData'.
+            userData = user
+
+            // Monta o formulário de comentários.
+            cmtForm = `
+<div class="cmtUser">Comentando como <a href="profile"><b>${user.displayName}</b></a>.</div>
+<form method="post" id="formComment" name="formComment">
+    <textarea name="txtContent" id="txtContent">Comentário fake para testes</textarea>
+    <button type="submit">Enviar</button>
+</form>
+            `
+
+            // Se não tem logados...
+        } else {
+
+            // Monta mensagem pedindo para logar.
+            cmtForm = `<p class="center">Logue-se para comentar.</p>`
+        }
+
+        $('#commentForm').html(cmtForm)
+        cmtForm = ''
+
+        // Monitora envio do formulário.
+        $('#formComment').submit(sendComment)
+    });
+
+}
+
+function getComments(artId) {
+
+    // Obtém todos os comentários deste artigo
+    $.get(app.apiCommentURL + '&article=' + artId)
+        .done((cmts) => {
+
+            if (cmts.length > 0) {
+
+                cmts.forEach((cmt) => {
+
+                    // Obtém e formata a data do artigo.
+                    var parts = cmt.date.split(' ')[0].split('-')
+                    var date = `${parts[2]}/${parts[1]}/${parts[0]} às ${cmt.date.split(' ')[1]}`
+
+                    // Substitui quebras de linha (\n) pela tag <br> no conteúdo.
+                    var content = cmt.content.split("\n").join("<br>")
+
+                    cmtList += `
+<div class="cmt-item">
+    <small class="dateAuthor"><span>Por ${cmt.name}&nbsp;</span><span>em ${date}</span></small>
+    <div class="cmtContent">&#8618; ${content}</div>
+</div>
+                `
+                })
+
+            } else {
+                cmtList = `<p class="center">Nenhum comentário.<br>Seja a(o) primeira(o) a comentar!</p>`
+            }
+
+            $('#commentList').html(cmtList)
+            cmtList = ''
+        })
+        .fail()
+
+}
+

@@ -26,12 +26,12 @@ body {
 }
 
 a {
-    color: #000;
+    color: #d37f47;
     text-decoration: none;
 }
 
 a:hover {
-    color: #ce6f2f;
+    color: #a13014;
     text-decoration: none;
 }
 
@@ -273,6 +273,10 @@ body {
     height: 1px;
     margin: 0;
     border: .25rem solid transparent;
+}
+
+.center {
+    text-align: center;
 }
 
 @media screen and (min-width: 480px) {

@@ -25,6 +25,10 @@
     margin-top: .25rem;
 }
 
+.art-content {
+    margin-bottom: 1rem;
+}
+
 .dateAuthor {
     display: flex;
     flex-direction: column;
@@ -32,6 +36,76 @@
     padding: .25rem .5rem;
     background-color: rgb(240, 240, 240);
     border-radius: .25rem;
+}
+
+#commentForm {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+#commentForm textarea,
+#commentForm button {
+    display: block;
+    font-size: inherit;
+    font-family: inherit;
+    border-radius: .3rem;
+}
+
+#commentForm textarea {
+    width: 100%;
+    height: 7rem;
+    padding: .5rem;
+    resize: vertical;
+    border: 1px solid grey;
+    margin-top: .5rem;
+}
+
+#commentForm button {
+    border: none;
+    background-color: #6d6d6d;
+    color: white;
+    padding: .5rem 1rem;
+    margin-top: .25rem;
+    cursor: pointer;
+}
+
+#commentForm button:hover {
+    background-color: #b86026;
+}
+
+#commentList small {
+    margin: 0;
+}
+
+
+.sep {
+    border: none;
+    border-top: 1px solid grey;
+    height: 1px;
+}
+
+.art-item {
+    color: #d37f47;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.art-item:hover {
+    color: #a13014;
+}
+
+.cmtUser {
+    text-align: right;
+}
+
+.cmt-item {
+    margin: 1rem 1rem;
+}
+
+.cmtContent {
+    margin-top: 0.5rem;
 }
 
 @media screen and (min-width: 480px) {

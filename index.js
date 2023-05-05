@@ -18,7 +18,8 @@ var app = {
     apiArticlesURL: apiBaseURL + 'articles?_sort=date&_order=desc&status=on',
     apiArticleURL: apiBaseURL + 'articles/',
     apiUserURL: apiBaseURL + 'users/',
-    apiCommentURL: apiBaseURL + 'comments?_sort=date&_order=desc&status=on'
+    apiCommentURL: apiBaseURL + 'comments?_sort=date&_order=desc&status=on',
+    apiCommentPostURL: apiBaseURL + 'comments'
 }
 
 
@@ -98,11 +99,20 @@ function myApp() {
      **/
     $(document).on('click', 'a', routerLink)
 
+    /**
+     * Quando clicar em um artigo.
+     **/
+        $(document).on('click', '.art-item', loadArticle)
+
 }
+
 
 // Faz login do usuário usando o Firebase Authentication
 function fbLogin() {
     firebase.auth().signInWithPopup(provider)
+        .then(() => {
+            loadpage(location.pathname.split('/')[1])
+        })
 }
 
 /**
@@ -337,4 +347,28 @@ function getAge(sysDate) {
 
     // Retorna a idade.
     return age
+}
+
+/**
+ * Carrega o artigo completo.
+ */
+function loadArticle() {
+
+    // Obtém o id do artigo e armazena na sessão.
+    sessionStorage.article = $(this).attr('data-id')
+
+    // Carrega a página que exibe artigos → view.
+    loadpage('view')
+}
+
+/**
+ * Sanitiza um texto, removendo todas as tags HTML.
+ */
+function stripHTML(html) {
+
+    // Armazena o texto no DOM na forma de string.
+    let doc = new DOMParser().parseFromString(html, 'text/html');
+
+    // Obtém e retorna o conteúdo do DOM como texto puro.
+    return doc.body.textContent || "";
 }

@@ -9,24 +9,12 @@
  */
 
 // Variável que define as informações básicas do site/aplicativo. 
-var apiBaseURL = 'http://localhost:3000/'
-var app = {
+const app = {
     siteName: 'Code Blog',
     siteSlogan: 'Programação e códigos.',
     siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>',
-    apiContactsURL: apiBaseURL + 'contacts',
-    apiArticlesURL: apiBaseURL + 'articles?_sort=date&_order=desc&status=on',
-    apiArticleURL: apiBaseURL + 'articles/',
-    apiUserURL: apiBaseURL + 'users/',
-    apiCommentURL: apiBaseURL + 'comments?_sort=date&_order=desc&status=on',
-    apiCommentPostURL: apiBaseURL + 'comments'
+    apiBaseURL: 'http://localhost:3000/'
 }
-
-
-/*Altera as informações mutáveis do site como logo, slogan, nome
-utilizando os valores inseridos na variável app.*/
-$('#siteInfos').html(app.siteName + '<br>' + '<small>' + app.siteSlogan + '</small>')
-$('#siteLicense').html('Desenvolvido por ' + app.siteLicense)
 
 /**
  * jQuery → Quando o documento estiver pronto, executa a função principal,
@@ -53,6 +41,8 @@ $(document).ready(myApp)
  **/
 function myApp() {
 
+    onstorage = popUpOpen
+
     // Monitora status de autenticação do usuário
     firebase.auth().onAuthStateChanged((user) => {
 
@@ -62,6 +52,7 @@ function myApp() {
             // Mostra a imagem do usuário e o link de perfil.
             $('#navUser').html(`<img src="${user.photoURL}" alt="${user.displayName}" referrerpolicy="no-referrer"><span>Perfil</span>`)
             $('#navUser').attr('href', 'profile')
+
             // Se não tem logados...
         } else {
 
@@ -78,23 +69,23 @@ function myApp() {
      **/
 
     // Verifica se o 'localStorage' contém uma rota.
-    if (localStorage.path == undefined) {
+    if (sessionStorage.path == undefined) {
 
         // Se não contém, aponta a rota 'home'.
-        localStorage.path = 'home'
+        sessionStorage.path = 'home'
     }
 
     // Armazena a rota obtida em 'path'.        
-    var path = localStorage.path
+    path = sessionStorage.path
 
     // Apaga o 'localStorage', liberando o recurso.
-    delete localStorage.path
+    delete sessionStorage.path
 
     // Carrega a página solicitada pela rota.
     loadpage(path)
 
     /**
-     * jQuery → Monitora cliques em elementos '<a>' que , se ocorre, chama a função 
+     * jQuery → Monitora cliques em elementos '<a>' que, se ocorre, chama a função 
      * routerLink().
      **/
     $(document).on('click', 'a', routerLink)
@@ -102,16 +93,23 @@ function myApp() {
     /**
      * Quando clicar em um artigo.
      **/
-        $(document).on('click', '.art-item', loadArticle)
+    $(document).on('click', '.art-item', loadArticle)
 
 }
-
 
 // Faz login do usuário usando o Firebase Authentication
 function fbLogin() {
     firebase.auth().signInWithPopup(provider)
-        .then(() => {
+        .then((user) => {
+            popUp({ type: 'success', text: `Olá ${user.user.displayName}!` })
             loadpage(location.pathname.split('/')[1])
+        })
+        .catch((error) => {
+            try {
+                popUp({ type: 'error', text: 'Ooops! Popups estão bloqueados!<br>Por favor, libere-os!' })
+            } catch (e) {
+                alert('Ooops! Popups estão bloqueados!\nPor favor, libere-os!')
+            }
         })
 }
 
@@ -268,6 +266,13 @@ function loadpage(page, updateURL = true) {
 
         })
 
+        // Se ocorreu falha em carregar o documento...
+        .catch(() => {
+
+            // Carrega a página de erro 404 sem atualizar a rota.
+            loadpage('e404', false)
+        })
+
     /**
     * Rola a tela para o início, útil para links no final da página.
     * Referências:
@@ -298,28 +303,10 @@ function loadpage(page, updateURL = true) {
  * 
  **/
 function changeTitle(title = '') {
-
-    /**
-     * Define o título padrão da página.
-     */
     let pageTitle = app.siteName + ' - '
-
-    /**
-     * Se não foi definido um título para a página, 
-     * usa o slogan.
-     **/
     if (title == '') pageTitle += app.siteSlogan
-
-    /**
-     * Se foi definido um título, usa-o.
-     */
     else pageTitle += title
-
-    /**
-     * Escreve o novo título na tag <title></title>.
-     */
     $('title').html(pageTitle)
-
 }
 
 /**
@@ -332,7 +319,7 @@ function getAge(sysDate) {
     const tMonth = today.getMonth() + 1
     const tDay = today.getDate()
 
-    // Obtebdo partes da data original.
+    // Obtendo partes da data original.
     const parts = sysDate.split('-')
     const pYear = parts[0]
     const pMonth = parts[1]
@@ -342,8 +329,7 @@ function getAge(sysDate) {
     var age = tYear - pYear
 
     // Verificar o mês e o dia.
-    if (pMonth > tMonth) age--
-    else if (pMonth == tMonth && pDay > tDay) age--
+    if (pMonth > tMonth || pMonth == tMonth && pDay > tDay) age--
 
     // Retorna a idade.
     return age
@@ -351,24 +337,79 @@ function getAge(sysDate) {
 
 /**
  * Carrega o artigo completo.
- */
+ **/
 function loadArticle() {
-
-    // Obtém o id do artigo e armazena na sessão.
     sessionStorage.article = $(this).attr('data-id')
-
-    // Carrega a página que exibe artigos → view.
     loadpage('view')
 }
 
 /**
  * Sanitiza um texto, removendo todas as tags HTML.
- */
-function stripHTML(html) {
-
-    // Armazena o texto no DOM na forma de string.
+ **/
+function stripHtml(html) {
     let doc = new DOMParser().parseFromString(html, 'text/html');
-
-    // Obtém e retorna o conteúdo do DOM como texto puro.
     return doc.body.textContent || "";
+}
+
+function popUp(params) {
+    const x = window.open('', 'popupWindow', 'width=1,height=1,left=10000');
+    x.localStorage.setItem('popUp', JSON.stringify(params));
+    x.close()
+}
+
+function popUpOpen() {
+
+    if (localStorage.popUp) {
+
+        const pData = JSON.parse(localStorage.popUp)
+        var pStyle = ''
+
+        switch (pData.type) {
+            case 'error': pStyle = 'background-color: #f00; color: #fff'; break
+            case 'alert': pStyle = 'background-color: #ff0; color: #000'; break
+            case 'success': pStyle = 'background-color: #0f0; color: #000'; break
+            default: pStyle = 'background-color: #fff; color: #000'
+        }
+
+        $('body').prepend(`
+        <div id="popup">
+            <div class="popup-body" style="${pStyle}">
+                <div class="popup-text">${pData.text}</div>
+                <div class="popup-close"><i class="fa-solid fa-xmark fa-fw"></i></div>
+            </div>
+        </div>
+        `)
+
+        $('.popup-close').click(popUpClose)
+        setTimeout(popUpClose, parseInt(pData.time) || 3000)
+
+    }
+}
+
+function popUpClose() {
+    delete localStorage.popUp
+    $('#popup').remove()
+}
+
+const myDate = {
+
+    sysToBr: (systemDate, time = true) => {
+        var parts = systemDate.split(' ')[0].split('-')
+        var out = `${parts[2]}/${parts[1]}/${parts[0]}`
+        if (time) out += ` às ${systemDate.split(' ')[1]}`
+        return out
+    },
+
+    jsToBr: (jsDate, time = true) => {
+        var theDate = new Date(jsDate)
+        var out = theDate.toLocaleDateString('pt-BR')
+        if (time) out += ` às ${theDate.toLocaleTimeString('pt-BR')}`
+        return out
+    },
+
+    todayToSys: () => {
+        const today = new Date()
+        return today.toISOString().replace('T', ' ').split('.')[0]
+    }
+
 }

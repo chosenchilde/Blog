@@ -20,7 +20,11 @@ function myHome() {
     /**
      * Obtém todos os artigos do site, orneados pela data, descrecente.
      **/
-    $.get(app.apiArticlesURL)
+    $.get(app.apiBaseURL + 'articles', {
+        _sort: 'date',
+        _order: 'desc',
+        status: 'on'
+    })
 
         // Armazena os artigos obtidos em "data".
         .done((data) => {

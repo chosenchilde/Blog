@@ -18,6 +18,26 @@ function myContacts() {
      **/
     changeTitle('Faça contato')
 
+    // Monitora status de autenticação do usuário
+    firebase.auth().onAuthStateChanged((user) => {
+
+        // Se o usuário está logado...
+        if (user) {
+
+            // Preenche campos do formulário.
+            $('#name').val(user.displayName)
+            $('#email').val(user.email)
+
+            // Foca no assunto.
+            $('#subject').focus()
+
+        } else {
+
+            // Foca no nome.
+            $('#name').focus()
+        }
+    });
+
     /**
      * Promise do formulário de contatos.
      * Quando o formulário for enviado (onsubmit), executa a função
@@ -25,6 +45,18 @@ function myContacts() {
      */
     $('#cForm').submit(sendContact)
 
+    // Anima ícones de redes sociais.
+    $('.contacts a').mouseover(animeIcon)
+    $('.contacts a').mouseout(noAnimeIcon)
+
+}
+
+function animeIcon() {
+    $(this).children('i').addClass('fa-beat-fade')
+}
+
+function noAnimeIcon() {
+    $(this).children('i').removeClass('fa-beat-fade')
 }
 
 /**
@@ -62,18 +94,38 @@ function sendContact(ev) {
             return false
     }
 
+    // Obtém a data atual do sistema em 'system date' (aaaa-mm-dd hh:ii:ss).
+    formJSON.date = myDate.todayToSys()
+
+    // Campo de status do contato.
+    formJSON.status = 'received'
+
     // Envia os dados do formulário para a API.
-    $.post(app.apiContactsURL, formJSON)
+    $.post(app.apiBaseURL + 'contacts', formJSON)
+
+        // Ao concluir o envio, armazena o retorno da API em "data".
         .done((data) => {
+
+            // Variável para armazenar a mensagem de retorno para o usuário.
             var feedback;
-            if (data.status == 'success') {
+
+            // Se a API respondeu com sucesso...
+            if (data.id > 0) {
+
+                // Extrai o primeiro nome do usuário.
                 var firstName = formJSON.name.split(' ')[0]
+
+                // Gera a mensagem de agradecimento.
                 feedback = `
                     <h3>Olá ${firstName}!</h3>
                     <p>Seu contato foi enviado com sucesso.</p>
                     <p>Obrigado...</p>
-                `
+                `;
+
+                // Se a API respondeu com erro...
             } else {
+
+                // Gera a mensagem de agradecimento.
                 feedback = `
                     <h3>Oooops!</h3>
                     <p>Não foi possível enviar seu contato. Ocorreu uma falha no servidor.</p>
@@ -81,11 +133,11 @@ function sendContact(ev) {
                 `
             }
 
-            // Limpar campos do formulário.
+            // Limpa campos do formulário.
             for (const key in formJSON)
                 $('#' + key).val('')
 
-            // Mostra feedback.
+            // Substitui conteúdo do formulário pela mensagem de retorno.
             $('#cForm').html(feedback)
         })
 

@@ -53,13 +53,6 @@
     padding: .5rem 1rem 1.5rem 1rem;
 }
 
-#commentTitle hr {
-    flex-grow: 1;
-    border: none;
-    border-top: 1px dotted grey;
-    border-bottom: 1px dotted grey;
-    height: 1px;
-}
 
 #commentTitle span {
     padding: 0 .5rem;
@@ -91,14 +84,14 @@
 }
 
 #authorArtcicles ul li {
-    color: steelblue;
-    cursor: pointer;
+    color: #d37f47;
+    text-decoration: none;
     margin-top: .25rem;
 }
 
 #authorArtcicles ul li:hover {
-    color: orangered;
-    text-decoration: underline;
+    color: #a13014;
+    text-decoration: none;
 }
 
 #commentForm {

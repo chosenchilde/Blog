@@ -286,9 +286,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 6rem;
-    color: grey;
+    font-size: 3rem;
+    margin-top: 1rem;
+    color: #b86026;
 }
+
 
 /***************/
 /* Formulários */

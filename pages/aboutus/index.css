@@ -1,1 +1,24 @@
-/* Folhas de estilo de About Us. */
+/* Folhas de estilo de aboutus. */
+#userProfile {
+    padding-top: 1rem;
+    display: table;
+    margin: auto;
+    width: 100%;
+    max-width: 300px;
+}
+
+#userProfile img {
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-width: 300px;
+    border-radius: .3rem;
+}
+
+#userProfile h3 {
+    margin: .25rem 0 0 0;
+}
+
+#userProfile h5 {
+    margin-top: .25rem;
+}

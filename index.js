@@ -13,7 +13,8 @@ const app = {
     siteName: 'Code Blog',
     siteSlogan: 'Programação e códigos.',
     siteLicense: '<a href="#" title="Lucas Belchior">&copy; 2023 Lucas Belchior</a>',
-    apiBaseURL: 'http://localhost:3000/'
+    //apiBaseURL: 'http://localhost/'
+    apiBaseURL: 'https://codeblog-api.onrender.com/'
 }
 
 /*Altera as informações mutáveis do site como logo, slogan, nome

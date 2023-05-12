@@ -117,7 +117,7 @@ function sendContact(ev) {
 
                 // Gera a mensagem de agradecimento.
                 feedback = `
-                    <h3>Olá ${firstName}!</h3>
+                    <h4>Olá ${firstName}!</h4>
                     <p>Seu contato foi enviado com sucesso.</p>
                     <p>Obrigado...</p>
                 `;
@@ -127,7 +127,7 @@ function sendContact(ev) {
 
                 // Gera a mensagem de agradecimento.
                 feedback = `
-                    <h3>Oooops!</h3>
+                    <h4>Oooops!</h4>
                     <p>Não foi possível enviar seu contato. Ocorreu uma falha no servidor.</p>
                     <p><em><code>${data.data.message}</code></em></p>
                 `
